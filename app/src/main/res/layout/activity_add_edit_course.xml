@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="activities.AddEditCourseActivity">
+
+    <EditText
+        android:id="@+id/edit_course_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Course Name"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Date" />
+
+    <EditText
+        android:id="@+id/edit_course_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:inputType="date"
+        android:hint="MM/DD/YYYY"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course End (eta)"
+        />
+
+    <EditText
+        android:id="@+id/edit_course_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:inputType="date"
+        android:hint="MM/DD/YYYY"
+        />
+
+    <CheckBox
+        android:id="@+id/edit_course_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alarm" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/edit_course_radio_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_course_status_in_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In Progress" />
+
+        <RadioButton
+            android:id="@+id/radio_course_status_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Completed" />
+
+        <RadioButton
+            android:id="@+id/radio_course_status_dropped"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dropped" />
+
+        <RadioButton
+            android:id="@+id/radio_course_status_planned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Plan To Take" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course Mentor"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_course_mentor_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mentor Name"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/edit_course_mentor_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/edit_course_mentor_email_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>

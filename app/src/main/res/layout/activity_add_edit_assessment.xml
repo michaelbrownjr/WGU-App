@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="activities.AddEditAssessmentActivity">
+
+    <EditText
+        android:id="@+id/edit_assessment_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:hint="Name"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        />
+
+    <RadioGroup
+        android:id="@+id/edit_assessment_radio_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_assessment_type_oa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OA" />
+
+        <RadioButton
+            android:id="@+id/radio_assessment_type_pa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PA" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Goal Date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        />
+
+    <EditText
+        android:id="@+id/edit_assessment_goal_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:inputType="date"
+        android:hint="MM/DD/YYYY"
+        />
+
+    <CheckBox
+        android:id="@+id/edit_assessment_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alarm" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

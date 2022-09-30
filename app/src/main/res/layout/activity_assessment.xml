@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="activities.AssessmentActivity">
+
+    <TextView
+        android:id="@+id/detailed_assessment_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Assessment Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/detailed_assessment_4hSRixkiKHxhodLLXzGBuiCpP9wT1OrpPGItk1BW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_assessment_title" />
+
+    <TextView
+        android:id="@+id/detailed_assessment_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="PA"
+        app:layout_constraintBaseline_toBaselineOf="@+id/detailed_assessment_4hSRixkiKHxhodLLXzGBuiCpP9wT1OrpPGItk1BW"
+        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_4hSRixkiKHxhodLLXzGBuiCpP9wT1OrpPGItk1BW" />
+
+
+    <TextView
+        android:id="@+id/detailed_assessment_due_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn"
+        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn" />
+
+    <TextView
+        android:id="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Due Date"
+        app:layout_constraintStart_toStartOf="@+id/detailed_assessment_4hSRixkiKHxhodLLXzGBuiCpP9wT1OrpPGItk1BW"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_assessment_4hSRixkiKHxhodLLXzGBuiCpP9wT1OrpPGItk1BW" />
+
+    <ImageView
+        android:id="@+id/detailed_assessment_image_alarm"
+        android:layout_width="50dp"
+        android:layout_height="47dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_due_date"
+        app:layout_constraintTop_toTopOf="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn"
+        app:srcCompat="@drawable/ic_baseline_notifications_active_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_edit_assessment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="32dp"
+        android:src="@drawable/ic_edit_white_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

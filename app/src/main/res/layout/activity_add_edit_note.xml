@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="activities.AddEditNoteActivity">
+
+    <EditText
+        android:id="@+id/edit_note_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:hint="Name"
+        />
+
+    <EditText
+        android:id="@+id/edit_note_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Lorem ipsum..."
+        android:gravity="top|start"
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
