@@ -31,8 +31,10 @@ public class AddEditCourseActivity extends AppCompatActivity {
             "com.mbro.wguapp.activities.COURSE_START_DATE";
     public static final String EXTRA_COURSE_END_DATE =
             "com.mbro.wguapp.activities.COURSE_END_DATE";
-    public static final String EXTRA_COURSE_ALERT =
-            "com.mbro.wguapp.activities.COURSE_ALERT";
+    public static final String EXTRA_START_COURSE_ALERT =
+            "com.mbro.wguapp.activities.COURSE_START_ALERT";
+    public static final String EXTRA_END_COURSE_ALERT =
+            "com.mbro.wguapp.activities.COURSE_END_ALERT";
     public static final String EXTRA_COURSE_STATUS =
             "com.mbro.wguapp.activities.COURSE_STATUS";
     public static final String EXTRA_COURSE_MENTOR_NAME =
@@ -52,7 +54,8 @@ public class AddEditCourseActivity extends AppCompatActivity {
     private EditText editTextTitle;
     private EditText editTextStartDate;
     private EditText editTextEndDate;
-    private CheckBox editCheckboxCourseAlarm;
+    private CheckBox editCheckboxStartCourseAlarm;
+    private CheckBox editCheckboxEndCourseAlarm;
     private RadioGroup editRadioStatus;
     private EditText editTextCourseMentorName;
     private EditText getEditTextCourseMentorPhone;
@@ -66,7 +69,8 @@ public class AddEditCourseActivity extends AppCompatActivity {
         editTextTitle = findViewById(R.id.edit_course_title);
         editTextStartDate = findViewById(R.id.edit_course_start_date);
         editTextEndDate = findViewById(R.id.edit_course_end_date);
-        editCheckboxCourseAlarm = findViewById(R.id.edit_course_alarm);
+        editCheckboxStartCourseAlarm = findViewById(R.id.edit_start_course_alarm);
+       editCheckboxEndCourseAlarm = findViewById(R.id.edit_end_course_alarm);
         editRadioStatus = findViewById(R.id.edit_course_radio_status);
         editTextCourseMentorName = findViewById(R.id.edit_course_mentor_name);
         getEditTextCourseMentorPhone = findViewById(R.id.edit_course_mentor_phone_number);
@@ -105,8 +109,12 @@ public class AddEditCourseActivity extends AppCompatActivity {
             editTextTitle.setText(intent.getStringExtra(EXTRA_COURSE_TITLE));
             editTextStartDate.setText(intent.getStringExtra(EXTRA_COURSE_START_DATE));
             editTextEndDate.setText(intent.getStringExtra(EXTRA_COURSE_END_DATE));
-            if(intent.getBooleanExtra(EXTRA_COURSE_ALERT, false))
-                editCheckboxCourseAlarm.performClick();
+            if(intent.getBooleanExtra(EXTRA_START_COURSE_ALERT, false)) {
+                editCheckboxStartCourseAlarm.performClick();
+            }
+            if(intent.getBooleanExtra(EXTRA_END_COURSE_ALERT, false)) {
+                editCheckboxEndCourseAlarm.performClick();
+            }
             editRadioStatus.check(getBtnID(intent.getIntExtra(EXTRA_COURSE_STATUS, -1)));
             editTextCourseMentorName.setText(intent.getStringExtra(EXTRA_COURSE_MENTOR_NAME));
             getEditTextCourseMentorPhone.setText(intent.getStringExtra(EXTRA_COURSE_MENTOR_PHONE));
@@ -120,7 +128,8 @@ public class AddEditCourseActivity extends AppCompatActivity {
         String courseTitle = editTextTitle.getText().toString();
         String courseStartDate = editTextStartDate.getText().toString();
         String courseEndDate = editTextEndDate.getText().toString();
-        boolean courseAlarmEnabled = editCheckboxCourseAlarm.isChecked();
+        boolean courseStartAlarmEnabled = editCheckboxStartCourseAlarm.isChecked();
+        boolean courseEndAlarmEnabled = editCheckboxEndCourseAlarm.isChecked();
         int courseStatus = getRadioStatus(editRadioStatus.getCheckedRadioButtonId());
         String courseMentorName = editTextCourseMentorName.getText().toString();
         String courseMentorPhone = getEditTextCourseMentorPhone.getText().toString();
@@ -141,7 +150,8 @@ public class AddEditCourseActivity extends AppCompatActivity {
         data.putExtra(EXTRA_COURSE_TITLE, courseTitle);
         data.putExtra(EXTRA_COURSE_START_DATE, courseStartDate);
         data.putExtra(EXTRA_COURSE_END_DATE, courseEndDate);
-        data.putExtra(EXTRA_COURSE_ALERT, courseAlarmEnabled);
+        data.putExtra(EXTRA_START_COURSE_ALERT, courseStartAlarmEnabled);
+        data.putExtra(EXTRA_END_COURSE_ALERT, courseEndAlarmEnabled);
         data.putExtra(EXTRA_COURSE_STATUS, courseStatus);
         data.putExtra(EXTRA_COURSE_MENTOR_NAME, courseMentorName);
         data.putExtra(EXTRA_COURSE_MENTOR_PHONE, courseMentorPhone);

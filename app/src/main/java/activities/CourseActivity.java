@@ -42,8 +42,10 @@ public class CourseActivity extends AppCompatActivity {
             "com.mbro.wguapp.activities.COURSE_START_DATE";
     public static final String EXTRA_COURSE_END_DATE =
             "com.mbro.wguapp.activities.COURSE_END_DATE";
-    public static final String EXTRA_COURSE_ALERT =
-            "com.mbro.wguapp.activities.COURSE_ALERT";
+    public static final String EXTRA_START_COURSE_ALERT =
+            "com.mbro.wguapp.activities.COURSE_START_ALERT";
+    public static final String EXTRA_END_COURSE_ALERT =
+            "com.mbro.wguapp.activities.COURSE_END_ALERT";
     public static final String EXTRA_COURSE_STATUS =
             "com.mbro.wguapp.activities.COURSE_STATUS";
     public static final String EXTRA_COURSE_MENTOR_NAME =
@@ -81,8 +83,11 @@ public class CourseActivity extends AppCompatActivity {
     private TextView textViewCourseMentorName;
     private TextView textViewCourseMentorPhone;
     private TextView textViewCourseMentorEmail;
+    private boolean startAlarmEnabled;
+    private boolean endAlarmEnabled;
     private boolean alarmEnabled;
-    private ImageView imageViewAlarm;
+    private ImageView imageViewStartAlarm;
+    private ImageView imageViewEndAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +99,8 @@ public class CourseActivity extends AppCompatActivity {
         textViewStartDate = findViewById(R.id.detailed_course_start_date);
         textViewEndDate = findViewById(R.id.detailed_course_end_date);
         textViewCourseStatus = findViewById(R.id.detailed_course_status);
-        imageViewAlarm = findViewById(R.id.detailed_image_alarm);
+        imageViewEndAlarm = findViewById(R.id.detailed_image_end_alarm);
+        imageViewStartAlarm = findViewById(R.id.detailed_image_start_alarm);
         textViewCourseMentorName = findViewById(R.id.detailed_course_mentor_name);
         textViewCourseMentorPhone = findViewById(R.id.detailed_course_mentor_phone_number);
         textViewCourseMentorEmail = findViewById(R.id.detailed_course_mentor_email_address);
@@ -114,12 +120,20 @@ public class CourseActivity extends AppCompatActivity {
         textViewCourseMentorName.setText(parentIntent.getStringExtra(EXTRA_COURSE_MENTOR_NAME));
         textViewCourseMentorPhone.setText(parentIntent.getStringExtra(EXTRA_COURSE_MENTOR_PHONE));
         textViewCourseMentorEmail.setText(parentIntent.getStringExtra(EXTRA_COURSE_MENTOR_EMAIL));
-        alarmEnabled = parentIntent.getBooleanExtra(EXTRA_COURSE_ALERT, false);
-        if (alarmEnabled) {
-            imageViewAlarm.setVisibility(View.VISIBLE);
+        startAlarmEnabled = parentIntent.getBooleanExtra(EXTRA_START_COURSE_ALERT, false);
+        endAlarmEnabled = parentIntent.getBooleanExtra(EXTRA_END_COURSE_ALERT, false);
+        if (endAlarmEnabled) {
+            imageViewEndAlarm.setVisibility(View.VISIBLE);
         } else {
-            imageViewAlarm.setVisibility(View.INVISIBLE);
+            imageViewEndAlarm.setVisibility(View.INVISIBLE);
         }
+
+        if (startAlarmEnabled) {
+            imageViewStartAlarm.setVisibility(View.VISIBLE);
+        } else {
+            imageViewStartAlarm.setVisibility(View.INVISIBLE);
+        }
+
 
         FloatingActionButton buttonEditCourse = findViewById(R.id.btn_edit_course);
         buttonEditCourse.setOnClickListener(v -> {
@@ -132,7 +146,8 @@ public class CourseActivity extends AppCompatActivity {
             editCourseIntent.putExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_NAME, textViewCourseMentorName.getText().toString());
             editCourseIntent.putExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_PHONE, textViewCourseMentorPhone.getText().toString());
             editCourseIntent.putExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_EMAIL, textViewCourseMentorEmail.getText().toString());
-            editCourseIntent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ALERT, alarmEnabled);
+            editCourseIntent.putExtra(AddEditCourseActivity.EXTRA_START_COURSE_ALERT,startAlarmEnabled);
+            editCourseIntent.putExtra(AddEditCourseActivity.EXTRA_END_COURSE_ALERT, endAlarmEnabled);
             startActivityForResult(editCourseIntent, EDIT_COURSE_REQUEST);
         });
     }
@@ -146,7 +161,8 @@ public class CourseActivity extends AppCompatActivity {
             String courseTitle = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_TITLE);
             String courseStartDate = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_START_DATE);
             String courseEndDate = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_END_DATE);
-            boolean alarmEnabled = data.getBooleanExtra(AddEditCourseActivity.EXTRA_COURSE_ALERT, false);
+            boolean startAlarmEnabled = data.getBooleanExtra(AddEditCourseActivity.EXTRA_START_COURSE_ALERT, false);
+            boolean endAlarmEnabled = data.getBooleanExtra(AddEditCourseActivity.EXTRA_END_COURSE_ALERT, false);
             int courseStatus = data.getIntExtra(AddEditCourseActivity.EXTRA_COURSE_STATUS, -1);
             String courseMentorName = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_NAME);
             String courseMentorPhone = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_PHONE);
@@ -156,11 +172,15 @@ public class CourseActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error, course not saved", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            if (alarmEnabled) {
-                imageViewAlarm.setVisibility(View.VISIBLE);
+            if (startAlarmEnabled) {
+                imageViewStartAlarm.setVisibility(View.VISIBLE);
             } else {
-                imageViewAlarm.setVisibility(View.INVISIBLE);
+                imageViewStartAlarm.setVisibility(View.INVISIBLE);
+            }
+            if (endAlarmEnabled) {
+                imageViewEndAlarm.setVisibility(View.VISIBLE);
+            } else {
+                imageViewEndAlarm.setVisibility(View.INVISIBLE);
             }
 
             textViewTitle.setText(courseTitle);
@@ -171,43 +191,62 @@ public class CourseActivity extends AppCompatActivity {
             textViewCourseMentorPhone.setText(courseMentorPhone);
             textViewCourseMentorEmail.setText(courseMentorEmail);
 
-            if (alarmEnabled) {
+            if (startAlarmEnabled || endAlarmEnabled) {
                 courseAlarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
-                Intent startCourseAlarmIntent = new Intent(this, CourseAlarmReceiver.class);
-                startCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TITLE, courseTitle + " Alert!");
-                startCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TEXT, courseTitle + " will be starting soon (" + courseStartDate + ")");
-                Intent endCourseAlarmIntent = new Intent(this, CourseAlarmReceiver.class);
-                endCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TITLE, courseTitle + " Alert!");
-                endCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TEXT, courseTitle + " will be ending soon (" + courseEndDate + ")");
 
-                Calendar startCourseAlarmCalendar = Calendar.getInstance();
-                Calendar endCourseAlarmCalendar = Calendar.getInstance();
-                SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditCourseActivity.DATE_FORMAT, Locale.ENGLISH);
-                try {
-                    startCourseAlarmCalendar.setTime(Objects.requireNonNull(dateFormat.parse(courseStartDate)));
-                    startCourseAlarmCalendar.set(Calendar.HOUR, 8);
-                    endCourseAlarmCalendar.setTime(Objects.requireNonNull(dateFormat.parse(courseEndDate)));
-                    endCourseAlarmCalendar.set(Calendar.HOUR, 8);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                if(startAlarmEnabled){
+                    Intent startCourseAlarmIntent = new Intent(this, CourseAlarmReceiver.class);
+                    startCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TITLE, courseTitle + " Alert!");
+                    startCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TEXT, courseTitle + " will be starting soon (" + courseStartDate + ")");
+
+                    Calendar startCourseAlarmCalendar = Calendar.getInstance();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditCourseActivity.DATE_FORMAT, Locale.ENGLISH);
+                    try {
+                        startCourseAlarmCalendar.setTime(Objects.requireNonNull(dateFormat.parse(courseStartDate)));
+                        startCourseAlarmCalendar.set(Calendar.HOUR, 8);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    startCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_START, startCourseAlarmIntent, 0);
+                    courseAlarmManager.set(AlarmManager.RTC, startCourseAlarmCalendar.getTimeInMillis(), startCoursePendingIntent);
+                } else {
+                    if (courseAlarmManager != null) {
+                        courseAlarmManager.cancel(startCoursePendingIntent);
+                        startCoursePendingIntent.cancel();
+                    }
+
                 }
+                if(endAlarmEnabled){
+                    Intent endCourseAlarmIntent = new Intent(this, CourseAlarmReceiver.class);
+                    endCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TITLE, courseTitle + " Alert!");
+                    endCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TEXT, courseTitle + " will be ending soon (" + courseEndDate + ")");
 
-                startCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_START, startCourseAlarmIntent, 0);
-                endCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_END, endCourseAlarmIntent, 0);
-                courseAlarmManager.set(AlarmManager.RTC, startCourseAlarmCalendar.getTimeInMillis(), startCoursePendingIntent);
-                courseAlarmManager.set(AlarmManager.RTC, endCourseAlarmCalendar.getTimeInMillis(), endCoursePendingIntent);
-            } else {
-                if (courseAlarmManager != null) {
-                    courseAlarmManager.cancel(startCoursePendingIntent);
-                    courseAlarmManager.cancel(endCoursePendingIntent);
-                    startCoursePendingIntent.cancel();
-                    endCoursePendingIntent.cancel();
+                    Calendar endCourseAlarmCalendar = Calendar.getInstance();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditCourseActivity.DATE_FORMAT, Locale.ENGLISH);
+                    try {
+                        endCourseAlarmCalendar.setTime(Objects.requireNonNull(dateFormat.parse(courseEndDate)));
+                        endCourseAlarmCalendar.set(Calendar.HOUR, 8);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    endCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_END, endCourseAlarmIntent, 0);
+                    courseAlarmManager.set(AlarmManager.RTC, endCourseAlarmCalendar.getTimeInMillis(), endCoursePendingIntent);
+                } else {
+                    if (courseAlarmManager != null) {
+                        courseAlarmManager.cancel(endCoursePendingIntent);
+                        endCoursePendingIntent.cancel();
+                    }
+
                 }
 
             }
-
             CourseEntity courseEntity = new CourseEntity(termID,
-                    courseTitle, courseStartDate, courseEndDate, alarmEnabled,
+                    courseTitle, courseStartDate, courseEndDate, startAlarmEnabled, endAlarmEnabled,
                     courseStatus, courseMentorName, courseMentorPhone, courseMentorEmail);
 
             courseEntity.setId(courseID);

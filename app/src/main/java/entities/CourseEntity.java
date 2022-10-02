@@ -22,18 +22,20 @@ public class CourseEntity extends GenericEntity {
     private String title;
     private String startDate;
     private String endDate;
-    private boolean alert;
+    private boolean startDateAlert;
+    private boolean endDateAlert;
     private int status;
     private String mentorName;
     private String mentorPhone;
     private String mentorEmail;
 
-    public CourseEntity(int termID, String title, String startDate, String endDate, boolean alert, int status, String mentorName, String mentorPhone, String mentorEmail) {
+    public CourseEntity(int termID, String title, String startDate, String endDate, boolean startDateAlert, boolean endDateAlert, int status, String mentorName, String mentorPhone, String mentorEmail) {
         this.termID = termID;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.alert = alert;
+        this.startDateAlert = startDateAlert;
+        this.endDateAlert = endDateAlert;
         this.status = status;
         this.mentorName = mentorName;
         this.mentorPhone = mentorPhone;
@@ -80,12 +82,20 @@ public class CourseEntity extends GenericEntity {
         this.endDate = endDate;
     }
 
-    public boolean isAlert() {
-        return alert;
+    public boolean isStartDateAlert() {
+        return startDateAlert;
     }
 
-    public void setAlert(boolean alert) {
-        this.alert = alert;
+    public void setStartDateAlert(boolean alert) {
+        this.endDateAlert = alert;
+    }
+
+    public boolean isEndDateAlert() {
+        return endDateAlert;
+    }
+
+    public void setEndDateAlert(boolean alert) {
+        this.endDateAlert = alert;
     }
 
     public int getStatus() {

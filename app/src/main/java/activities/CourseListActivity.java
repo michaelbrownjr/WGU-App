@@ -74,7 +74,8 @@ public class CourseListActivity extends AppCompatActivity {
             intent.putExtra(CourseActivity.EXTRA_COURSE_TITLE, courseEntity.getTitle());
             intent.putExtra(CourseActivity.EXTRA_COURSE_START_DATE, courseEntity.getStartDate());
             intent.putExtra(CourseActivity.EXTRA_COURSE_END_DATE, courseEntity.getEndDate());
-            intent.putExtra(CourseActivity.EXTRA_COURSE_ALERT, courseEntity.isAlert());
+            intent.putExtra(CourseActivity.EXTRA_START_COURSE_ALERT, courseEntity.isStartDateAlert());
+            intent.putExtra(CourseActivity.EXTRA_END_COURSE_ALERT,courseEntity.isEndDateAlert());
             intent.putExtra(CourseActivity.EXTRA_COURSE_STATUS, courseEntity.getStatus());
             intent.putExtra(CourseActivity.EXTRA_COURSE_MENTOR_NAME, courseEntity.getMentorName());
             intent.putExtra(CourseActivity.EXTRA_COURSE_MENTOR_EMAIL, courseEntity.getMentorEmail());
@@ -92,14 +93,16 @@ public class CourseListActivity extends AppCompatActivity {
             String title = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_TITLE);
             String startdate = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_START_DATE);
             String endDate = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_END_DATE);
-            boolean courseAlert = data.getBooleanExtra(AddEditCourseActivity.EXTRA_COURSE_ALERT, false);
+            boolean startCourseAlert = data.getBooleanExtra(AddEditCourseActivity.EXTRA_START_COURSE_ALERT, false);
+            boolean endCourseAlert = data.getBooleanExtra(AddEditCourseActivity.EXTRA_END_COURSE_ALERT, false);
+
             int status = data.getIntExtra(AddEditCourseActivity.EXTRA_COURSE_STATUS, -1);
             String mentorName = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_NAME);
             String mentorPhone = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_PHONE);
             String mentorEmail = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_EMAIL);
 
             if(termID == -1) throw new AssertionError("termID cannot be -1");
-            CourseEntity courseEntity = new CourseEntity(termID, title, startdate, endDate, courseAlert,
+            CourseEntity courseEntity = new CourseEntity(termID, title, startdate, endDate, startCourseAlert, endCourseAlert,
                     status, mentorName, mentorPhone, mentorEmail);
             courseViewModel.insert(courseEntity);
 
