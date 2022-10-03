@@ -22,14 +22,20 @@ public class AssessmentEntity extends GenericEntity {
     private String name;
     private int type;
     private String goalDate;
-    private boolean alert;
 
-    public AssessmentEntity(int courseID, String name, int type, String goalDate, boolean alert) {
+
+    private String startDate;
+    private boolean alert;
+    private boolean startAlert;
+
+    public AssessmentEntity(int courseID, String name, int type, String goalDate, String startDate, boolean alert, boolean startAlert) {
         this.courseID = courseID;
         this.name = name;
         this.type = type;
         this.goalDate = goalDate;
+        this.startDate = startDate;
         this.alert = alert;
+        this.startAlert = startAlert;
     }
 
     public int getId() {
@@ -72,11 +78,28 @@ public class AssessmentEntity extends GenericEntity {
         this.goalDate = goalDate;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+
     public boolean isAlert() {
         return alert;
     }
 
     public void setAlert(boolean alert) {
         this.alert = alert;
+    }
+
+    public boolean isStartAlert() {
+        return startAlert;
+    }
+
+    public void setStartAlert(boolean startAlert) {
+        this.startAlert = startAlert;
     }
 }

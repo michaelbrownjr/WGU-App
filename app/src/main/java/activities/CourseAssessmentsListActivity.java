@@ -80,6 +80,8 @@ public class CourseAssessmentsListActivity extends AppCompatActivity {
             loadAssessmentIntent.putExtra(AssessmentActivity.EXTRA_ASSESSMENT_TYPE, assessmentEntity.getType());
             loadAssessmentIntent.putExtra(AssessmentActivity.EXTRA_ASSESSMENT_DUE_DATE, assessmentEntity.getGoalDate());
             loadAssessmentIntent.putExtra(AssessmentActivity.EXTRA_ASSESSMENT_ALARM, assessmentEntity.isAlert());
+            loadAssessmentIntent.putExtra(AssessmentActivity.EXTRA_ASSESSMENT_START_DATE, assessmentEntity.getStartDate());
+            loadAssessmentIntent.putExtra(AssessmentActivity.EXTRA_ASSESSMENT_START_ALARM, assessmentEntity.isStartAlert());
             startActivity(loadAssessmentIntent);
         });
     }
@@ -95,8 +97,10 @@ public class CourseAssessmentsListActivity extends AppCompatActivity {
             String assessmentGoalDate = data.getStringExtra(AddEditAssessmentActivity.EXTRA_COURSE_ASSESSMENT_GOAL_DATE);
             boolean assessmentAlertEnabled = data.getBooleanExtra(AddEditAssessmentActivity.EXTRA_COURSE_ASSESSMENT_ALERT, false);
 
+            String assessmentStartDate = data.getStringExtra(AddEditAssessmentActivity.EXTRA_COURSE_ASSESSMENT_START_DATE);
+            boolean assessmentStartAlertEnabled = data.getBooleanExtra(AddEditAssessmentActivity.EXTRA_COURSE_ASSESSMENT_ALERT_START, false);
             AssessmentEntity assessmentEntity = new AssessmentEntity(courseID,
-                    assessmentName, assessmentType, assessmentGoalDate, assessmentAlertEnabled);
+                    assessmentName, assessmentType, assessmentGoalDate, assessmentStartDate, assessmentAlertEnabled, assessmentStartAlertEnabled);
 
             assessmentViewModel.insert(assessmentEntity);
         }

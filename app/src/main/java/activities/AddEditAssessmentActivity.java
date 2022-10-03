@@ -33,19 +33,29 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
             "com.mbro.wguapp.activities.COURSE_ASSESSMENT_GOAL_DATE";
     public static final String EXTRA_COURSE_ASSESSMENT_ALERT =
             "com.mbro.wguapp.activities.COURSE_ASSESSMENT_ALERT";
+    public static final String EXTRA_COURSE_ASSESSMENT_START_DATE =
+            "com.mbro.wguapp.activities.COURSE_ASSESSMENT_START_DATE";
+    public static final String EXTRA_COURSE_ASSESSMENT_ALERT_START =
+            "com.mbro.wguapp.activities.COURSE_ASSESSMENT_ALERT_START";
     public static final String EXTRA_ASSESSMENT_TYPE =
             "com.mbro.wguapp.activities.ASSESSMENT_TYPE";
 
     public static final int EDIT_ASSESSMENT_REQUEST = 2;
 
     public static final String DATE_FORMAT = "MM/dd/yyyy";
+    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.US);
 
     private Calendar calendarGoalDate;
+    private Calendar calendarStartDate;
 
     private EditText editTextTitle;
     private RadioGroup editRadioGroupType;
+
     private EditText editTextGoalDate;
     private CheckBox editCheckboxAlarmEnabled;
+
+    private EditText editTextStartDate;
+    private CheckBox editCheckboxStartAlarmEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,32 +64,55 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
 
         editTextTitle = findViewById(R.id.edit_assessment_name);
         editRadioGroupType = findViewById(R.id.edit_assessment_radio_type);
+
+        editTextStartDate = findViewById(R.id.edit_assessment_start_date);
         editTextGoalDate = findViewById(R.id.edit_assessment_goal_date);
+
+        editCheckboxStartAlarmEnabled = findViewById(R.id.edit_assessment_start_alarm);
         editCheckboxAlarmEnabled = findViewById(R.id.edit_assessment_alarm);
+
 
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
         this.calendarGoalDate = Calendar.getInstance();
+        this.calendarStartDate = Calendar.getInstance();
+
         DatePickerDialog.OnDateSetListener dateSetGoal = (view, year, month, dayOfMonth) -> {
             calendarGoalDate.set(Calendar.YEAR, year);
             calendarGoalDate.set(Calendar.MONTH, month);
             calendarGoalDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
+            editTextGoalDate.setText(sdf.format(calendarGoalDate.getTime()));
         };
+        DatePickerDialog.OnDateSetListener dateSetStart = (view, year, month, dayOfMonth) -> {
+            calendarStartDate.set(Calendar.YEAR, year);
+            calendarStartDate.set(Calendar.MONTH, month);
+            calendarStartDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            editTextStartDate.setText(sdf.format(calendarStartDate.getTime()));
+        };
+
         editTextGoalDate.setOnClickListener(v -> new DatePickerDialog(AddEditAssessmentActivity.this,
             dateSetGoal,
             calendarGoalDate.get(Calendar.YEAR),
             calendarGoalDate.get(Calendar.MONTH),
             calendarGoalDate.get(Calendar.DAY_OF_MONTH)).show());
 
+        editTextStartDate.setOnClickListener(v -> new DatePickerDialog(AddEditAssessmentActivity.this,
+                dateSetStart,
+                calendarStartDate.get(Calendar.YEAR),
+                calendarStartDate.get(Calendar.MONTH),
+                calendarStartDate.get(Calendar.DAY_OF_MONTH)).show());
+
         Intent parentIntent = getIntent();
         if(parentIntent.hasExtra(EXTRA_ASSESSMENT_ID)) {
             setTitle("Edit Assessment");
             editTextTitle.setText(parentIntent.getStringExtra(EXTRA_COURSE_ASSESSMENT_TITLE));
             editTextGoalDate.setText(parentIntent.getStringExtra(EXTRA_COURSE_ASSESSMENT_GOAL_DATE));
+            editTextStartDate.setText(parentIntent.getStringExtra(EXTRA_COURSE_ASSESSMENT_START_DATE));
             editRadioGroupType.check(getTypeBtnID(parentIntent.getIntExtra(EXTRA_ASSESSMENT_TYPE, -1)));
             if(parentIntent.getBooleanExtra(EXTRA_COURSE_ASSESSMENT_ALERT, false))
                 editCheckboxAlarmEnabled.performClick();
+            if (parentIntent.getBooleanExtra(EXTRA_COURSE_ASSESSMENT_ALERT_START, false))
+                editCheckboxStartAlarmEnabled.performClick();
         } else {
             setTitle("Add Assessment");
         }
@@ -89,10 +122,13 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
     private void saveAssessment() {
         String assessmentTitle = editTextTitle.getText().toString();
         String assessmentGoalDate = editTextGoalDate.getText().toString();
+        String assessmentStartDate = editTextStartDate.getText().toString();
+
         boolean alarmEnabled = editCheckboxAlarmEnabled.isChecked();
+        boolean startAlarmEnabled = editCheckboxStartAlarmEnabled.isChecked();
 
         if(assessmentTitle.trim().isEmpty()
-            || assessmentGoalDate.trim().isEmpty()
+            || assessmentGoalDate.trim().isEmpty() || assessmentStartDate.trim().isEmpty()
             || getTypeBtnID(editRadioGroupType.getCheckedRadioButtonId()) != -1) {
             Toast.makeText(this, "Assessment not saved. Empty fields", Toast.LENGTH_SHORT).show();
             return;
@@ -103,6 +139,8 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
         data.putExtra(EXTRA_ASSESSMENT_TYPE, getRadioType(editRadioGroupType.getCheckedRadioButtonId()));
         data.putExtra(EXTRA_COURSE_ASSESSMENT_GOAL_DATE, assessmentGoalDate);
         data.putExtra(EXTRA_COURSE_ASSESSMENT_ALERT, alarmEnabled);
+        data.putExtra(EXTRA_COURSE_ASSESSMENT_START_DATE, assessmentStartDate);
+        data.putExtra(EXTRA_COURSE_ASSESSMENT_ALERT_START, startAlarmEnabled);
         int assessmentID = getIntent().getIntExtra(EXTRA_ASSESSMENT_ID, -1);
         if(assessmentID != -1)
             data.putExtra(EXTRA_ASSESSMENT_ID, assessmentID);
@@ -162,10 +200,10 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
         return typeID;
     }
 
-    private void updateLabel() {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.US);
-
-        editTextGoalDate.setText(sdf.format(calendarGoalDate.getTime()));
-    }
+//    private void updateLabel() {
+//        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+//
+//        editTextGoalDate.setText(sdf.format(calendarGoalDate.getTime()));
+//    }
 
 }

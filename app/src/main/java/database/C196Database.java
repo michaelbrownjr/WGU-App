@@ -20,7 +20,7 @@ import entities.CourseEntity;
 import entities.NoteEntity;
 import entities.TermEntity;
 
-@Database(version = 2,
+@Database(version = 3,
         entities = {
                 TermEntity.class,
                 CourseEntity.class,
@@ -84,9 +84,9 @@ public abstract class C196Database extends RoomDatabase {
             courseDao.insert(new CourseEntity(2, "Course 3", "01/01/2020", "06/05/2020",
                     false, false,CourseActivity.STATUS_PLANNED, "Bob", "5555555555", "bob@null.com"));
 
-            assessmentDao.insert(new AssessmentEntity(1, "test1", 0, "03/03/2020", true));
-            assessmentDao.insert(new AssessmentEntity(2, "test1", 0, "03/03/2020", true));
-            assessmentDao.insert(new AssessmentEntity(3, "test1", 1, "03/03/2020", true));
+            assessmentDao.insert(new AssessmentEntity(1, "test1", 0, "03/03/2020", "01/02/2020", true, false));
+            assessmentDao.insert(new AssessmentEntity(2, "test1", 0, "03/03/2020", "01/02/2020", false, true));
+            assessmentDao.insert(new AssessmentEntity(3, "test1", 1, "03/03/2020", "01/02/2020", true, true));
 
             noteDao.insert(new NoteEntity(1, "Note for course 1", "Content of my note"));
             noteDao.insert(new NoteEntity(2, "Note for course 2", "Content of my note"));

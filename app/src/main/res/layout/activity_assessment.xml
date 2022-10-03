@@ -39,32 +39,61 @@
 
 
     <TextView
-        android:id="@+id/detailed_assessment_due_date"
+        android:id="@+id/detailed_assessment_date_to_goal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="TextView"
-        app:layout_constraintBaseline_toBaselineOf="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn"
-        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/detailed_assessment_goal_date"
+        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_goal_date" />
 
     <TextView
-        android:id="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn"
+        android:id="@+id/detailed_assessment_goal_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Due Date"
+        android:text="Goal Date"
         app:layout_constraintStart_toStartOf="@+id/detailed_assessment_4hSRixkiKHxhodLLXzGBuiCpP9wT1OrpPGItk1BW"
         app:layout_constraintTop_toBottomOf="@+id/detailed_assessment_4hSRixkiKHxhodLLXzGBuiCpP9wT1OrpPGItk1BW" />
 
     <ImageView
         android:id="@+id/detailed_assessment_image_alarm"
-        android:layout_width="50dp"
-        android:layout_height="47dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn"
+        app:layout_constraintBottom_toBottomOf="@+id/detailed_assessment_goal_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_due_date"
-        app:layout_constraintTop_toTopOf="@+id/detailed_assessment_uSHIA1cSYGko4yerP0kAGwzZEo6aZLa484atlOOn"
+        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_date_to_goal"
+        app:layout_constraintTop_toTopOf="@+id/detailed_assessment_goal_date"
+        app:srcCompat="@drawable/ic_baseline_notifications_active_24" />
+
+    <TextView
+        android:id="@+id/detailed_assessment_date_to_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/detailed_assessment_start_date"
+        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_start_date" />
+
+    <TextView
+        android:id="@+id/detailed_assessment_start_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Start Date"
+        app:layout_constraintStart_toStartOf="@+id/detailed_assessment_goal_date"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_assessment_goal_date" />
+
+    <ImageView
+        android:id="@+id/detailed_assessment_image_start_alarm"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/detailed_assessment_start_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detailed_assessment_date_to_start"
+        app:layout_constraintTop_toTopOf="@+id/detailed_assessment_start_date"
         app:srcCompat="@drawable/ic_baseline_notifications_active_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

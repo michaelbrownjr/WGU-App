@@ -17,10 +17,15 @@ targetSdkVersion 32
 _Explain how your application would be different if it were developed for a tablet rather than a phone, including a discussion of fragments and layouts._
 Larger screens such as tablets expand the user experience. For my app to function properly for tablets, I would need to use Fragments to introduce modularity into my app so when a tablet quickly changes orientation, the UI can be split utilizing the larger screen. A good example of this would be if I had navigation buttons on the bottom of the app. By using Fragments, I would be able to modularize the navigation UI and the Fragment UI moving the navigation UI in a more tablet friendly user experience. I would need to add my fragment to the page's activity layout file. 
 
+## Challenge
+One of the challenges I came across was trying to figure out where to design first. Should I start from the bottom, with the database design or design the UI first and work my way down? I researched areas where working with the database design first, would allow better testing and structuring of the models of data. Another
+Another challenge I faces was the confusion connecting data and UI changes between an Activity and ActivityList, specifically CourseActivity, AssessmentActivity, CourseListActivity, and CourseAssessmentListActivity. 
 ## Overcoming each challenge
 Developing bottom up, by identifying the database design and implementing the required methods I would need was much easier to develop for. By using `LiveData`, I addressed problems such as the life-cycle of data on a GUI screen by always using the database for data. Information left on screen could be tossed out without loss and did not require additional complexity to maintain the state of the activity.
 GUI was developed to meet the needs of the database, which meant that insufficient layouts could be tossed out rather then making critical database design changes. One database change that had to occur however was for radio buttons, which was changed to an int and provided with getting and setting methods to identify what a status integer related to, `0 == Dropped` for example.
 I was unable to overcome the challenge of asynchronous data and checking its size, and resorted to implementing an entirely different call to the database to return synced data, allowing the app to identify the size of it and determine if a term has courses associated with it.
+
+On the challenge of confusion connecting data and UI changes between activities, I referred back to my Storyboard and wrote down notes of all of the attributes that are connected within them, what methods are changing the attributes while traversing the life cycle. By doing this, I was able to create a fluent and consistent app life cycle without confusion. 
 
 ## Different Approach
 My different approach would include creating the storyboard from the beginning as this would decrease wasted time from creating GUI layouts that ended up being unused. A bottom-up approach and setting the foundation for the GUI would speed up development.

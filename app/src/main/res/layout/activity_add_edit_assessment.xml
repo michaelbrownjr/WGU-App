@@ -40,6 +40,28 @@
             android:layout_height="wrap_content"
             android:text="PA" />
     </RadioGroup>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        />
+
+    <EditText
+        android:id="@+id/edit_assessment_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:inputType="date"
+        android:hint="MM/DD/YYYY"
+        />
+
+    <CheckBox
+        android:id="@+id/edit_assessment_start_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Assessment Alarm" />
 
     <TextView
         android:layout_width="match_parent"
@@ -62,6 +84,6 @@
         android:id="@+id/edit_assessment_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alarm" />
+        android:text="Assessment Goal Alarm" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
