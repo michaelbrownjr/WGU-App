@@ -196,10 +196,12 @@ public class CourseActivity extends AppCompatActivity {
 
                 if(startAlarmEnabled){
                     Intent startCourseAlarmIntent = new Intent(this, CourseAlarmReceiver.class);
+
                     startCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TITLE, courseTitle + " Alert!");
                     startCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TEXT, courseTitle + " will be starting soon (" + courseStartDate + ")");
 
                     Calendar startCourseAlarmCalendar = Calendar.getInstance();
+                    long startAlarmTime = startCourseAlarmCalendar.getTimeInMillis();
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditCourseActivity.DATE_FORMAT, Locale.ENGLISH);
                     try {
@@ -210,8 +212,8 @@ public class CourseActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    startCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_START, startCourseAlarmIntent, 0);
-                    courseAlarmManager.set(AlarmManager.RTC, startCourseAlarmCalendar.getTimeInMillis(), startCoursePendingIntent);
+                    startCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_START, startCourseAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                    courseAlarmManager.set(AlarmManager.RTC_WAKEUP, startAlarmTime, startCoursePendingIntent);
                 } else {
                     if (courseAlarmManager != null) {
                         courseAlarmManager.cancel(startCoursePendingIntent);
@@ -226,6 +228,8 @@ public class CourseActivity extends AppCompatActivity {
 
                     Calendar endCourseAlarmCalendar = Calendar.getInstance();
 
+                    long endAlarmTime = endCourseAlarmCalendar.getTimeInMillis();
+
                     SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditCourseActivity.DATE_FORMAT, Locale.ENGLISH);
                     try {
                         endCourseAlarmCalendar.setTime(Objects.requireNonNull(dateFormat.parse(courseEndDate)));
@@ -234,8 +238,8 @@ public class CourseActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    endCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_END, endCourseAlarmIntent, 0);
-                    courseAlarmManager.set(AlarmManager.RTC, endCourseAlarmCalendar.getTimeInMillis(), endCoursePendingIntent);
+                    endCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_END, endCourseAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                    courseAlarmManager.set(AlarmManager.RTC_WAKEUP, endAlarmTime, endCoursePendingIntent);
                 } else {
                     if (courseAlarmManager != null) {
                         courseAlarmManager.cancel(endCoursePendingIntent);

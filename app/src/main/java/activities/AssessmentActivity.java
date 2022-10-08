@@ -176,10 +176,10 @@ public class AssessmentActivity extends AppCompatActivity {
                 if (assessmentStartAlertEnabled){
                     Intent startAssessmentAlarmIntent = new Intent(this, AssessmentAlarmReceiver.class);
 
-                    startAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TITLE, assessmentName);
+                    startAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TITLE, assessmentName + " will be starting soon!");
                     startAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_ASSESSMENT_TYPE, getAssessmentType(assessmentType));
                     startAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TEXT, assessmentStartDate);
-                    PendingIntent startAssessmentPendingAlert = PendingIntent.getBroadcast(this, 0, startAssessmentAlarmIntent, 0);
+                    PendingIntent startAssessmentPendingAlert = PendingIntent.getBroadcast(this, 0, startAssessmentAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
 
                     Calendar startAssessmentCalendar = Calendar.getInstance();
                 SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditAssessmentActivity.DATE_FORMAT, Locale.ENGLISH);
@@ -189,8 +189,8 @@ public class AssessmentActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                startAssessmentPendingIntent =PendingIntent.getBroadcast(this, ALARM_ASSESSMENT_START, startAssessmentAlarmIntent, 0);
-                assessmentAlarmManager.set(AlarmManager.RTC, startAssessmentCalendar.getTimeInMillis(), startAssessmentPendingIntent);
+                startAssessmentPendingIntent = PendingIntent.getBroadcast(this, ALARM_ASSESSMENT_START, startAssessmentAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                assessmentAlarmManager.set(AlarmManager.RTC_WAKEUP, startAssessmentCalendar.getTimeInMillis(), startAssessmentPendingIntent);
             } else {
                 if(assessmentAlarmManager != null) {
                     assessmentAlarmManager.cancel(startAssessmentPendingIntent);
@@ -203,7 +203,7 @@ public class AssessmentActivity extends AppCompatActivity {
                 goalAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TITLE, assessmentName);
                 goalAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_ASSESSMENT_TYPE, getAssessmentType(assessmentType));
                 goalAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TEXT, assessmentGoalDate);
-                goalAssessmentPendingIntent = PendingIntent.getBroadcast(this, 0, goalAssessmentAlarmIntent, 0);
+
 
                 Calendar goalAssessmentCalendar = Calendar.getInstance();
                     SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditAssessmentActivity.DATE_FORMAT, Locale.ENGLISH);
@@ -213,8 +213,9 @@ public class AssessmentActivity extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    goalAssessmentPendingIntent =PendingIntent.getBroadcast(this, ALARM_ASSESSMENT_GOAL, goalAssessmentAlarmIntent, 0);
-                assessmentAlarmManager.set(AlarmManager.RTC, goalAssessmentCalendar.getTimeInMillis(), goalAssessmentPendingIntent);
+
+                    goalAssessmentPendingIntent = PendingIntent.getBroadcast(this, 0, goalAssessmentAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                assessmentAlarmManager.set(AlarmManager.RTC_WAKEUP, goalAssessmentCalendar.getTimeInMillis(), goalAssessmentPendingIntent);
                 } else {
                     if(assessmentAlarmManager != null) {
                         assessmentAlarmManager.cancel(goalAssessmentPendingIntent);

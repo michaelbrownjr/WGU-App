@@ -1,5 +1,7 @@
 package activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -15,7 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.mbro.wguapp.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.SimpleTimeZone;
+
 import adapters.CourseAdapter;
+import alarms.CourseAlarmReceiver;
 import entities.CourseEntity;
 import viewmodel.CourseViewModel;
 
@@ -23,7 +34,13 @@ public class CourseListActivity extends AppCompatActivity {
     public static final String EXTRA_COURSE_TERM_ID = "activities.TERM_ID";
     public static final String EXTRA_COURSE_TERM_TITLE = "activities.TERM_TITLE";
 
+    public static final int ALARM_COURSE_START = 50;
+    public static final int ALARM_COURSE_END = 100;
+
     private int termID;
+    private AlarmManager courseAlarmManager;
+    PendingIntent startCoursePendingIntent;
+    PendingIntent endCoursePendingIntent;
 
     private CourseViewModel courseViewModel;
 
@@ -102,6 +119,65 @@ public class CourseListActivity extends AppCompatActivity {
             String mentorEmail = data.getStringExtra(AddEditCourseActivity.EXTRA_COURSE_MENTOR_EMAIL);
 
             if(termID == -1) throw new AssertionError("termID cannot be -1");
+
+           if (startCourseAlert || endCourseAlert){
+               courseAlarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
+
+               if (startCourseAlert){
+                   Intent startCourseAlarmIntent = new Intent(this, CourseAlarmReceiver.class);
+
+                   startCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TITLE, title + " Alert!");
+                   startCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TEXT, title + " will be starting soon (" + startdate + ")!");
+
+                   Calendar startCourseAlarmCalendar = Calendar.getInstance();
+                   long startAlarmTime = startCourseAlarmCalendar.getTimeInMillis();
+
+                   SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditCourseActivity.DATE_FORMAT, Locale.ENGLISH);
+
+                   try {
+                       startCourseAlarmCalendar.setTime(Objects.requireNonNull(dateFormat.parse(startdate)));
+                       startCourseAlarmCalendar.set(Calendar.HOUR, 8);
+                   } catch (ParseException e) {
+                       e.printStackTrace();
+                   }
+
+                   startCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_START, startCourseAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                   courseAlarmManager.set(AlarmManager.RTC_WAKEUP, startAlarmTime, startCoursePendingIntent);
+               } else {
+                   if (courseAlarmManager != null){
+                       courseAlarmManager.cancel(startCoursePendingIntent);
+                       startCoursePendingIntent.cancel();
+                   }
+               }
+               if (endCourseAlert){
+                   Intent endCourseAlarmIntent = new Intent(this, CourseAlarmReceiver.class);
+
+                   endCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TITLE, title + " Alert!");
+                   endCourseAlarmIntent.putExtra(CourseAlarmReceiver.ALARM_NOTIFICATION_TEXT, title + " will be ending soon (" + endDate + ")!");
+
+                   Calendar endCourseAlarmCalendar = Calendar.getInstance();
+                   long endAlarmTime = endCourseAlarmCalendar.getTimeInMillis();
+
+                   SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditCourseActivity.DATE_FORMAT, Locale.ENGLISH);
+
+                   try {
+                       endCourseAlarmCalendar.setTime(Objects.requireNonNull(dateFormat.parse(endDate)));
+                       endCourseAlarmCalendar.set(Calendar.HOUR, 8);
+                   } catch (ParseException e) {
+                       e.printStackTrace();
+                   }
+
+                   endCoursePendingIntent = PendingIntent.getBroadcast(this, ALARM_COURSE_START, endCourseAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                   courseAlarmManager.set(AlarmManager.RTC_WAKEUP, endAlarmTime, endCoursePendingIntent);
+               } else {
+                   if (courseAlarmManager != null){
+                       courseAlarmManager.cancel(endCoursePendingIntent);
+                       endCoursePendingIntent.cancel();
+                   }
+               }
+
+           }
+
             CourseEntity courseEntity = new CourseEntity(termID, title, startdate, endDate, startCourseAlert, endCourseAlert,
                     status, mentorName, mentorPhone, mentorEmail);
             courseViewModel.insert(courseEntity);
@@ -110,5 +186,6 @@ public class CourseListActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Course not added", Toast.LENGTH_SHORT).show();
         }
+
     }
 }

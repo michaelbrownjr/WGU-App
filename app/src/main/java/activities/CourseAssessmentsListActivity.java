@@ -1,5 +1,7 @@
 package activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -15,7 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.mbro.wguapp.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.Objects;
+
 import adapters.AssessmentAdapter;
+import alarms.AssessmentAlarmReceiver;
+import alarms.CourseAlarmReceiver;
 import entities.AssessmentEntity;
 import viewmodel.AssessmentViewModel;
 
@@ -27,6 +38,10 @@ public class CourseAssessmentsListActivity extends AppCompatActivity {
 
     private int courseID;
     private String courseTitle;
+
+    private AlarmManager assessmentAlarmManager;
+    private PendingIntent goalAssessmentPendingIntent;
+    private PendingIntent startAssessmentPendingIntent;
 
     private AssessmentViewModel assessmentViewModel;
 
@@ -99,6 +114,65 @@ public class CourseAssessmentsListActivity extends AppCompatActivity {
 
             String assessmentStartDate = data.getStringExtra(AddEditAssessmentActivity.EXTRA_COURSE_ASSESSMENT_START_DATE);
             boolean assessmentStartAlertEnabled = data.getBooleanExtra(AddEditAssessmentActivity.EXTRA_COURSE_ASSESSMENT_ALERT_START, false);
+
+            if(assessmentStartAlertEnabled || assessmentAlertEnabled) {
+                assessmentAlarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
+
+                if (assessmentStartAlertEnabled){
+                    Intent startAssessmentAlarmIntent = new Intent(this, AssessmentAlarmReceiver.class);
+
+                    startAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TITLE, assessmentName + " will be starting soon!");
+                    startAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_ASSESSMENT_TYPE, AssessmentActivity.getAssessmentType(assessmentType));
+                    startAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TEXT, assessmentStartDate);
+
+
+                    Calendar startAssessmentCalendar = Calendar.getInstance();
+                    long startAlarmTime =  startAssessmentCalendar.getTimeInMillis();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditAssessmentActivity.DATE_FORMAT, Locale.ENGLISH);
+                    try {
+                        startAssessmentCalendar.setTime(Objects.requireNonNull(dateFormat.parse(assessmentStartDate)));
+                        startAssessmentCalendar.set(Calendar.HOUR, 8);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    startAssessmentPendingIntent = PendingIntent.getBroadcast(this, AssessmentActivity.ALARM_ASSESSMENT_START, startAssessmentAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                    assessmentAlarmManager.set(AlarmManager.RTC_WAKEUP, startAlarmTime, startAssessmentPendingIntent);
+                } else {
+                    if(assessmentAlarmManager != null) {
+                        assessmentAlarmManager.cancel(startAssessmentPendingIntent);
+                        startAssessmentPendingIntent.cancel();
+                    }
+
+                }
+                if (assessmentAlertEnabled){
+                    Intent goalAssessmentAlarmIntent = new Intent(this, AssessmentAlarmReceiver.class);
+                    goalAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TITLE, assessmentName);
+                    goalAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_ASSESSMENT_TYPE, AssessmentActivity.getAssessmentType(assessmentType));
+                    goalAssessmentAlarmIntent.putExtra(AssessmentAlarmReceiver.ALARM_NOTIFICATION_TEXT, assessmentGoalDate);
+
+
+                    Calendar goalAssessmentCalendar = Calendar.getInstance();
+                    long goalAlarmTime = goalAssessmentCalendar.getTimeInMillis();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(AddEditAssessmentActivity.DATE_FORMAT, Locale.ENGLISH);
+                    try {
+                        goalAssessmentCalendar.setTime(Objects.requireNonNull(dateFormat.parse(assessmentGoalDate)));
+                        goalAssessmentCalendar.set(Calendar.HOUR, 8);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    goalAssessmentPendingIntent = PendingIntent.getBroadcast(this, AssessmentActivity.ALARM_ASSESSMENT_GOAL, goalAssessmentAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                    assessmentAlarmManager.set(AlarmManager.RTC_WAKEUP,goalAlarmTime, goalAssessmentPendingIntent);
+                } else {
+                    if(assessmentAlarmManager != null) {
+                        assessmentAlarmManager.cancel(goalAssessmentPendingIntent);
+                        goalAssessmentPendingIntent.cancel();
+                    }
+                }
+
+            }
+
             AssessmentEntity assessmentEntity = new AssessmentEntity(courseID,
                     assessmentName, assessmentType, assessmentGoalDate, assessmentStartDate, assessmentAlertEnabled, assessmentStartAlertEnabled);
 
