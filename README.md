@@ -6,3 +6,5 @@ WGU-app is a multiple-screen mobile application for a student to track terms, co
 - **Database:** SQLite
 - **SDK Version:** 21
 - **Target Android API version:** 32
+
+### [View App Storyboard](https://github.com/michaelbrownjr/WGU-App/blob/main/Project%20Docs/Storyboard.png)
