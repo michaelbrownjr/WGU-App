@@ -28,4 +28,5 @@ public interface TermDao extends GenericDao {
 
     @Query("SELECT * FROM terms ORDER BY id ASC")
     LiveData<List<TermEntity>> getAllTerms();
+
 }

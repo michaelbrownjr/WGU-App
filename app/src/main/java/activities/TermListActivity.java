@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +24,8 @@ import entities.TermEntity;
 import viewmodel.CourseViewModel;
 import viewmodel.TermViewModel;
 
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 
@@ -27,6 +33,8 @@ public class TermListActivity extends AppCompatActivity {
     public static final int ADD_TERM_REQUEST = 1;
 
     private TermViewModel termViewModel;
+    private TermAdapter adapter;
+    private ArrayList<TermEntity> TermEntityArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +119,56 @@ public class TermListActivity extends AppCompatActivity {
             Toast.makeText(this, "Term added", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Term not added", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // below line is to get out inflater
+        MenuInflater inflater = getMenuInflater();
+
+        // inside inflater we are inflating our new file
+        inflater.inflate(R.menu.search_menu, menu);
+
+        // below line is to get out menu item
+        MenuItem searchItem = menu.findItem(R.id.actionSearch);
+
+        // getting search view of our item
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String searchedText) {
+                filter(searchedText);
+                return false;
+            }
+        });
+        return true;
+    }
+
+    private void filter(String text){
+        // create a new array list to filter our data
+        ArrayList<TermEntity> filteredList = new ArrayList<TermEntity>();
+
+        // run a for lop to compare elements
+        for (TermEntity item : TermEntityArrayList){
+            // check if the entered text matches with an item in the recycler view
+            if (item.getTitle().toLowerCase().contains(text.toLowerCase())){
+                // if the item matches an item in the list add it to the filtered list
+                filteredList.add(item);
+            }
+        }
+        if (filteredList.isEmpty()){
+            // if no item is found in the list display toast message
+           Toast.makeText(this, "No Term Found!", Toast.LENGTH_SHORT).show();
+        } else {
+            // pass the filtered list to our adapter class
+            adapter.setTerms(filteredList);
+
         }
     }
 
