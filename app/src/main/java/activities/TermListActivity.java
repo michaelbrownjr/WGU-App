@@ -132,6 +132,7 @@ public class TermListActivity extends AppCompatActivity {
         // below line is to get out menu item
         MenuItem searchItem = menu.findItem(R.id.actionSearch);
 
+
         // getting search view of our item
         androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) searchItem.getActionView();
 
