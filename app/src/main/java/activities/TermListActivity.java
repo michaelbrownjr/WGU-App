@@ -133,9 +133,9 @@ public class TermListActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.actionSearch);
 
         // getting search view of our item
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) searchItem.getActionView();
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
