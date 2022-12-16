@@ -36,6 +36,7 @@ public class TermListActivity extends AppCompatActivity {
     private TermViewModel termViewModel;
     private List<TermEntity> termsList;
     private TermAdapter adapter;
+    private String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +61,19 @@ public class TermListActivity extends AppCompatActivity {
         // termsList is empty
         termsList = new ArrayList<TermEntity>();
 
+        text = "";
         // Add terms in termsList here
+
 
         final TermAdapter adapter = new TermAdapter();
         recyclerView.setAdapter(adapter);
 
         termViewModel = new ViewModelProvider(this).get(TermViewModel.class);
-        termViewModel.getAllTerms().observe(this, adapter::setTerms);
+//        termViewModel.getAllTerms().observe(this, adapter::setTerms);
+        termViewModel.getAllTerms().observe(this, terms->{
+            adapter.setTerms(filter(text));
+            termsList = terms;
+        });
 
         CourseViewModel courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
@@ -151,14 +158,19 @@ public class TermListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String searchedText) {
-                filter(searchedText);
+                text = searchedText;
+                filter(text);
                 return false;
             }
         });
         return true;
     }
 
-    private void filter(String text){
+    private List filter(String text){
+
+        // Defining adapter
+        final TermAdapter adapter = new TermAdapter();
+
         // create a new array list to filter our data
         ArrayList<TermEntity> filteredList = new ArrayList<TermEntity>();
 
@@ -173,9 +185,10 @@ public class TermListActivity extends AppCompatActivity {
         if (filteredList.isEmpty()){
             // if no item is found in the list display toast message
            Toast.makeText(this, "No Term Found!", Toast.LENGTH_SHORT).show();
+           return termsList;
         } else {
             // pass the filtered list to our adapter class
-            adapter.filterList(filteredList);
+            return filteredList;
 
         }
     }
