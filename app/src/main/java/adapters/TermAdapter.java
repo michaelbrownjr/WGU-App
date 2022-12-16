@@ -18,6 +18,16 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermHolder> {
     private List<TermEntity> terms = new ArrayList<>();
     private OnItemClickListener listener;
 
+    // method for filtering our recyclerview items.
+    public void filterList(List<TermEntity> filterlist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        terms = filterlist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public TermHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

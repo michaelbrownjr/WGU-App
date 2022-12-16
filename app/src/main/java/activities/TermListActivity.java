@@ -25,6 +25,7 @@ import viewmodel.CourseViewModel;
 import viewmodel.TermViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -33,8 +34,8 @@ public class TermListActivity extends AppCompatActivity {
     public static final int ADD_TERM_REQUEST = 1;
 
     private TermViewModel termViewModel;
+    private List<TermEntity> termsList;
     private TermAdapter adapter;
-    private ArrayList<TermEntity> TermEntityArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,15 @@ public class TermListActivity extends AppCompatActivity {
     }
 
     private void TermRecyclerView() {
+
         RecyclerView recyclerView = findViewById(R.id.termListView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+
+        // termsList is empty
+        termsList = new ArrayList<TermEntity>();
+
+        // Add terms in termsList here
 
         final TermAdapter adapter = new TermAdapter();
         recyclerView.setAdapter(adapter);
@@ -156,7 +163,7 @@ public class TermListActivity extends AppCompatActivity {
         ArrayList<TermEntity> filteredList = new ArrayList<TermEntity>();
 
         // run a for lop to compare elements
-        for (TermEntity item : TermEntityArrayList){
+        for (TermEntity item : termsList){
             // check if the entered text matches with an item in the recycler view
             if (item.getTitle().toLowerCase().contains(text.toLowerCase())){
                 // if the item matches an item in the list add it to the filtered list
@@ -168,7 +175,7 @@ public class TermListActivity extends AppCompatActivity {
            Toast.makeText(this, "No Term Found!", Toast.LENGTH_SHORT).show();
         } else {
             // pass the filtered list to our adapter class
-            adapter.setTerms(filteredList);
+            adapter.filterList(filteredList);
 
         }
     }
