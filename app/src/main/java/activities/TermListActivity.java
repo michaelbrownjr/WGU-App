@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 public class TermListActivity extends AppCompatActivity {
     public static final int ADD_TERM_REQUEST = 1;
 
+    private RecyclerView recyclerView;
     private TermViewModel termViewModel;
     private List<TermEntity> termsList;
     private TermAdapter adapter;
@@ -54,26 +56,28 @@ public class TermListActivity extends AppCompatActivity {
 
     private void TermRecyclerView() {
 
-        RecyclerView recyclerView = findViewById(R.id.termListView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
+//        recyclerView = findViewById(R.id.termListView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setHasFixedSize(true);
 
         // termsList is empty
         termsList = new ArrayList<TermEntity>();
 
-        text = "";
-        // Add terms in termsList here
+        adapter = new TermAdapter();
 
-
-        final TermAdapter adapter = new TermAdapter();
-        recyclerView.setAdapter(adapter);
 
         termViewModel = new ViewModelProvider(this).get(TermViewModel.class);
 //        termViewModel.getAllTerms().observe(this, adapter::setTerms);
         termViewModel.getAllTerms().observe(this, terms->{
-            adapter.setTerms(filter(text));
+            adapter.setTerms(terms);
             termsList = terms;
         });
+
+        recyclerView = findViewById(R.id.termListView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        recyclerView.setAdapter(adapter);
 
         CourseViewModel courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
@@ -158,18 +162,14 @@ public class TermListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String searchedText) {
-                text = searchedText;
-                filter(text);
+                filter(searchedText);
                 return false;
             }
         });
         return true;
     }
 
-    private List filter(String text){
-
-        // Defining adapter
-        final TermAdapter adapter = new TermAdapter();
+    private void filter(String text){
 
         // create a new array list to filter our data
         ArrayList<TermEntity> filteredList = new ArrayList<TermEntity>();
@@ -185,10 +185,9 @@ public class TermListActivity extends AppCompatActivity {
         if (filteredList.isEmpty()){
             // if no item is found in the list display toast message
            Toast.makeText(this, "No Term Found!", Toast.LENGTH_SHORT).show();
-           return termsList;
         } else {
             // pass the filtered list to our adapter class
-            return filteredList;
+            adapter.filterList(filteredList);
 
         }
     }
