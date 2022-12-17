@@ -56,10 +56,6 @@ public class TermListActivity extends AppCompatActivity {
 
     private void TermRecyclerView() {
 
-//        recyclerView = findViewById(R.id.termListView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setHasFixedSize(true);
-
         // termsList is empty
         termsList = new ArrayList<TermEntity>();
 
