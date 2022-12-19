@@ -24,12 +24,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button viewTermListButton = findViewById(R.id.view_term_list_btn);
+        Button viewReportButton = findViewById(R.id.view_report_btn);
 
 
-
+        // Button to view Term List
         viewTermListButton.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), TermListActivity.class);
             v.getContext().startActivity(intent);
+        });
+
+        // Button to Generate a Full Report
+        viewReportButton.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ReportsActivity.class);
+            view.getContext().startActivity(intent);
         });
     }
 }

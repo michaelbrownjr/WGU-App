@@ -31,6 +31,7 @@ public class C196Repository {
     private LiveData<List<AssessmentEntity>> mCourseAssessments;
 
 
+
     public C196Repository(Application application) {
         C196Database database = C196Database.getInstance(application);
         termDao = database.termDao();
@@ -100,6 +101,8 @@ public class C196Repository {
     public List<CourseEntity> getTermCourses(int termID) throws ExecutionException, InterruptedException {
         return new GetAsyncTermCourses(courseDao).execute(termID).get();
     }
+
+
     private static class GetAsyncTermCourses extends AsyncTask<Integer, Void, List<CourseEntity>> {
         private CourseDao dao;
 

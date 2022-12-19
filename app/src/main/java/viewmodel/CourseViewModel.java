@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import database.C196Repository;
 import entities.CourseEntity;
+import entities.TermEntity;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
