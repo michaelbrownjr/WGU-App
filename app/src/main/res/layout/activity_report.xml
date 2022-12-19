@@ -6,4 +6,71 @@
     android:layout_height="match_parent"
     tools:context="activities.ReportsActivity">
 
+    <TextView
+        android:id="@+id/detailed_course_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Student Report"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/number_of_terms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Terms"
+        app:layout_constraintBaseline_toBaselineOf="@+id/total_terms"
+        app:layout_constraintStart_toEndOf="@+id/total_terms" />
+
+    <TextView
+        android:id="@+id/number_of_courses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Courses"
+        app:layout_constraintBaseline_toBaselineOf="@+id/total_courses"
+        app:layout_constraintStart_toEndOf="@+id/total_courses" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Date"
+        app:layout_constraintBaseline_toBaselineOf="@+id/current_date"
+        app:layout_constraintStart_toEndOf="@+id/current_date" />
+
+    <TextView
+        android:id="@+id/current_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Current Date:"
+        app:layout_constraintStart_toStartOf="@+id/total_terms"
+        app:layout_constraintTop_toBottomOf="@+id/total_courses" />
+
+    <TextView
+        android:id="@+id/total_terms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Total Terms:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_course_title" />
+
+    <TextView
+        android:id="@+id/total_courses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Total Courses:"
+        app:layout_constraintStart_toStartOf="@+id/total_terms"
+        app:layout_constraintTop_toBottomOf="@+id/total_terms" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

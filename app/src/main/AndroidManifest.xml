@@ -27,6 +27,10 @@
         <activity android:name="activities.AssessmentActivity" />
         <activity android:name="activities.CourseAssessmentsListActivity" />
         <activity android:name="activities.AddEditNoteActivity" />
+        <activity android:name="activities.ReportsActivity"
+            android:label="Student Report"
+            android:launchMode="singleTop"
+            android:parentActivityName="activities.MainActivity"/>
         <activity
             android:name="activities.TermListActivity"
             android:label="Terms"
