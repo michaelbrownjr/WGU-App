@@ -25,6 +25,8 @@ public class ReportsActivity extends AppCompatActivity {
     private Date date;
     private TermViewModel termViewModel;
     private CourseViewModel courseViewModel;
+    private int numTerms = 0;
+    private int numCourses = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +45,20 @@ public class ReportsActivity extends AppCompatActivity {
         termViewModel = new ViewModelProvider(this).get(TermViewModel.class);
         termViewModel.getAllTerms().observe(this, terms->{
             adapterTerm.setTerms(terms);
+            numTerms = terms.size();
+            textViewNumTerms.setText(String.valueOf(numTerms));
         });
 
-        int numTerms = adapterTerm.getItemCount();
-        textViewNumTerms.setText(String.valueOf(numTerms));
-
+        // Setting the Courses
         TextView textViewTotalCourses = findViewById(R.id.total_courses);
         TextView textViewNumCourses = findViewById(R.id.number_of_courses);
 
-//        int numCourses = adapterCourse.getItemCount();
-//        textViewNumCourses.setText(String.valueOf(numCourses));
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+        courseViewModel.getAllCourses().observe(this, courses->{
+            adapterCourse.setCourses(courses);
+            numCourses = courses.size();
+            textViewNumCourses.setText(String.valueOf(numCourses));
+        });
 
         TextView textViewCurrentDate = findViewById(R.id.current_date);
         TextView textViewDate = findViewById(R.id.date);

@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import entities.CourseEntity;
+import entities.TermEntity;
 import generics.GenericDao;
 
 import java.util.List;
@@ -30,4 +31,7 @@ public interface CourseDao extends GenericDao {
 
     @Query("SELECT * FROM courses WHERE termID= :termID ORDER BY id ASC")
     List<CourseEntity> getTermCourses(int termID);
+
+    @Query("SELECT * FROM courses ORDER BY id ASC")
+    LiveData<List<CourseEntity>> getAllCourses();
 }

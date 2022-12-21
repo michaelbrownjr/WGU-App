@@ -21,8 +21,10 @@ public class C196Repository {
     private TermDao termDao;
     private LiveData<List<TermEntity>> mAllTerms;
 
+
     private CourseDao courseDao;
     private LiveData<List<CourseEntity>> mTermCourses;
+    private LiveData<List<CourseEntity>> mAllCourses;
 
     private NoteDao noteDao;
     private LiveData<List<NoteEntity>> mCourseNotes;
@@ -37,7 +39,9 @@ public class C196Repository {
         termDao = database.termDao();
         mAllTerms = termDao.getAllTerms();
 
+
         courseDao = database.courseDao();
+        mAllCourses = courseDao.getAllCourses();
         assessmentDao = database.assessmentDao();
         noteDao = database.noteDao();
     }
@@ -84,6 +88,10 @@ public class C196Repository {
 
     public LiveData<List<TermEntity>> getAllTerms() {
         return mAllTerms;
+    }
+
+    public LiveData<List<CourseEntity>> getAllCourses() {
+        return mAllCourses;
     }
 
     public LiveData<List<CourseEntity>> getLiveTermCourses(int termID) {
