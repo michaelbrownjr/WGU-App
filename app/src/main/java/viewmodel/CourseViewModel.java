@@ -15,10 +15,12 @@ import java.util.concurrent.ExecutionException;
 
 public class CourseViewModel extends AndroidViewModel {
     private C196Repository repo;
+    private LiveData<List<CourseEntity>> allCourses;
 
     public CourseViewModel(@NonNull Application application) {
         super(application);
         repo = new C196Repository(application);
+        allCourses = repo.getAllCourses();
     }
 
     public void insert(CourseEntity courseEntity) {
@@ -36,5 +38,9 @@ public class CourseViewModel extends AndroidViewModel {
     }
     public List<CourseEntity> getTermCourses(int termID) throws ExecutionException, InterruptedException {
         return repo.getTermCourses(termID);
+    }
+
+    public LiveData<List<CourseEntity>> getAllCourses() {
+        return allCourses;
     }
 }
