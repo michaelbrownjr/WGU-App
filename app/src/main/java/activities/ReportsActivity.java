@@ -13,6 +13,7 @@ import com.mbro.wguapp.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import adapters.CourseAdapter;
 import adapters.TermAdapter;
@@ -28,6 +29,9 @@ public class ReportsActivity extends AppCompatActivity {
     private int numTerms = 0;
     private int numCourses = 0;
 
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,7 @@ public class ReportsActivity extends AppCompatActivity {
 
         // Setting the Date
         date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a z", Locale.US);
         String formattedDate = format.format(date);
 
         // Setting the Terms
